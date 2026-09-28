@@ -52,7 +52,7 @@ function moveSquare() {
 
 moveSquare();
 
-//SECONDS
+//SECOND
 
 const secondsDisplay = document.querySelector('#seconds');
 const startBtn = document.querySelector('#start');
@@ -84,4 +84,38 @@ resetBtn.onclick = () => {
     interval = null;
     seconds = 0;
     secondsDisplay.innerHTML = seconds;
+};
+
+//MODAL
+const modal = document.querySelector('.modal');
+const modalClose = document.querySelector('.modal_close');
+const btnGet = document.querySelector('#btn-get');
+
+const openModal = () => {
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+};
+
+const closeModal = () => {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+};
+
+btnGet.onclick = () => openModal();
+
+modalClose.onclick = () => closeModal();
+
+modal.onclick = (event) => {
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
+setTimeout(openModal, 10000);
+
+window.onscroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        openModal();
+        window.onscroll = null;
+    }
 };

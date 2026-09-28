@@ -227,3 +227,6 @@
     height: 100%;
     object-fit: cover;
 }
+.modal {
+    display: none;
+}
