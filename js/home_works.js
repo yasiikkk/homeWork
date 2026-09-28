@@ -112,10 +112,33 @@ modal.onclick = (event) => {
 };
 
 setTimeout(openModal, 10000);
-
+//CHARACTERS
 window.onscroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         openModal();
         window.onscroll = null;
+    }
+};
+
+//
+const cardList = document.querySelector('.characters-list');
+
+const request = new XMLHttpRequest();
+request.open('GET', '../data/characters.json');
+request.setRequestHeader('Content-type', 'application/json');
+request.send();
+
+request.onload = () => {
+    if (request.status === 200) {
+        const data = JSON.parse(request.response);
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.setAttribute('class', 'character-card');
+            card.innerHTML = `
+                <div class="avatar"><img src="${item.photo}" alt=""></div>
+                <h2>${item.name}</h2>
+            `;
+            cardList.append(card);
+        });
     }
 };
