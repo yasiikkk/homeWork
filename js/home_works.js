@@ -142,3 +142,44 @@ request.onload = () => {
         });
     }
 };
+
+//CONVERT
+const somInput = document.querySelector('#som');
+const usdInput = document.querySelector('#usd');
+const eurInput = document.querySelector('#eur');
+
+const convert = (element, target1, target2) => {
+    element.oninput = () => {
+        const request = new XMLHttpRequest();
+        request.open('GET', '../data/convert.json');
+        request.setRequestHeader('Content-type', 'application/json');
+        request.send();
+
+        request.onload = () => {
+            if (request.status === 200) {
+                const data = JSON.parse(request.response);
+                
+                if (element.value === '') {
+                    target1.value = '';
+                    target2.value = '';
+                    return;
+                }
+
+                if (element.id === 'som') {
+                    target1.value = (element.value / data.usd).toFixed(2);
+                    target2.value = (element.value / data.eur).toFixed(2);
+                } else if (element.id === 'usd') {
+                    target1.value = (element.value * data.usd).toFixed(2);
+                    target2.value = ((element.value * data.usd) / data.eur).toFixed(2);
+                } else if (element.id === 'eur') {
+                    target1.value = (element.value * data.eur).toFixed(2);
+                    target2.value = ((element.value * data.eur) / data.usd).toFixed(2);
+                }
+            }
+        };
+    };
+};
+
+convert(somInput, usdInput, eurInput);
+convert(usdInput, somInput, eurInput);
+convert(eurInput, somInput, usdInput);
